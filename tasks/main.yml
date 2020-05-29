@@ -1,0 +1,54 @@
+---
+- name: Make Sure JQ & CURL Are Installed
+  apt:
+    name: ['jq', 'curl']
+    state: present
+
+- name: Find Latest Flux Release
+  shell: >
+    set -o pipefail && \
+    curl --silent "{{ github_release }}" | jq -r ".tag_name"
+  args:
+    warn: false
+    executable: /bin/bash
+  register: latest_release
+  changed_when: false
+
+- name: Check If Flux Is Installed
+  stat:
+    path: /usr/local/bin/fluxctl
+  register: binary_exists
+
+- name: Check Installed Flux Version
+  shell: >
+    set -o pipefail && \
+    fluxctl version
+  args:
+    executable: /bin/bash
+  register: flux_version
+  when: binary_exists.stat.exists
+  changed_when: false
+
+- name: Get Latest Release Link
+  shell: >
+    set -o pipefail && \
+    curl --silent "{{ github_release }}" | jq -r '.assets[].browser_download_url | select(. | contains("linux_amd64"))'
+  args:
+    warn: false
+    executable: /bin/bash
+  register: download_link
+  when: (not binary_exists.stat.exists) or (latest_release.stdout != flux_version.stdout)
+
+- name: Remove Old Version
+  file:
+    path: /usr/local/bin/flux
+    state: absent
+  when: (not binary_exists.stat.exists) or (latest_release.stdout != flux_version.stdout)
+
+- name: Download && Install Latest Release
+  uri:
+    url: "{{ download_link.stdout }}"
+    dest: /usr/local/bin/fluxctl
+    creates: /usr/local/bin/fluxctl
+    mode: 0755
+  when: (not binary_exists.stat.exists) or (latest_release.stdout != flux_version.stdout)

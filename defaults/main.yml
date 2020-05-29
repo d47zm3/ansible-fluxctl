@@ -1,0 +1,3 @@
+---
+# defaults file for flux
+github_release: https://api.github.com/repos/fluxcd/flux/releases/latest
