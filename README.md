@@ -1,12 +1,12 @@
-# Flux
+# Fluxctl
 
-![](https://github.com/d47zm3/ansible-flux/workflows/YAML%20Lint/badge.svg)
-![](https://github.com/d47zm3/ansible-flux/workflows/Ansible%20Lint/badge.svg)
+![](https://github.com/d47zm3/ansible-fluxctl/workflows/YAML%20Lint/badge.svg)
+![](https://github.com/d47zm3/ansible-fluxctl/workflows/Ansible%20Lint/badge.svg)
 
-Flux
+Fluxctl
 =========
 
-Kubernetes, GitOps way.
+Kubernetes, GitOps way. (client)
 
 Requirements
 ------------
@@ -30,7 +30,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: d47zm3.flux}
+         - { role: d47zm3.fluxctl}
 
 License
 -------

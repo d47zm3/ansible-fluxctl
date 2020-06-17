@@ -4,7 +4,7 @@
     name: ['jq', 'curl']
     state: present
 
-- name: Find Latest Flux Release
+- name: Find Latest Fluxctl Release
   shell: >
     set -o pipefail && \
     curl --silent "{{ github_release }}" | jq -r ".tag_name"
@@ -14,12 +14,12 @@
   register: latest_release
   changed_when: false
 
-- name: Check If Flux Is Installed
+- name: Check If Fluxctl Is Installed
   stat:
     path: /usr/local/bin/fluxctl
   register: binary_exists
 
-- name: Check Installed Flux Version
+- name: Check Installed Fluxctl Version
   shell: >
     set -o pipefail && \
     fluxctl version

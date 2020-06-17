@@ -1,8 +1,8 @@
 ---
 galaxy_info:
   author: d47zm3
-  role_name: flux
-  description: Flux - GitOps
+  role_name: fluxctl
+  description: Fluxctl (Client) - GitOps
   license: "license (BSD, MIT)"
 
   min_ansible_version: 2.9
